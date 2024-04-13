@@ -5,27 +5,23 @@ from robot.controllers.dc_motor import DCMotor
 from robot.controllers.servo_motor import ServoMotor
 from robot.controllers.accelerometer import Accelerometer
 
-# Accelerometer sensor
-ACC_SCL_PIN = 0
-ACC_SDA_PIN = 0
-
 # Servo Motors
 LEFT_SERVO_PIN = 0
 RIGHT_SERVO_PIN = 0
 
 # DC MotorS
-RIGHT_DC_PIN_1 = 0
-RIGHT_DC_PIN_2 = 0
-RIGHT_DC_PIN_EN = 0
+RIGHT_DC_PIN_EN = 16
+RIGHT_DC_PIN_1 = 18
+RIGHT_DC_PIN_2 = 22
 
-LEFT_DC_PIN_1 = 0
-LEFT_DC_PIN_2 = 0
-LEFT_DC_PIN_EN = 0
+LEFT_DC_PIN_EN = 15
+LEFT_DC_PIN_1 = 13
+LEFT_DC_PIN_2 = 11
 
 def loop(command_queue):
     print("Starting GPIO setup")
     # setup
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
 
     # Motors
     ## Servo Motors
@@ -36,8 +32,6 @@ def loop(command_queue):
     left_dc = DCMotor(LEFT_DC_PIN_1, LEFT_DC_PIN_2, LEFT_DC_PIN_EN)
     # Accelerometer sensor
     acc_sensor = Accelerometer(
-        ACC_SCL_PIN, 
-        ACC_SDA_PIN,
         right_dc,
         left_dc
     )
@@ -48,14 +42,16 @@ def loop(command_queue):
     # loop
         print("Starting Loop")
         while True:
-            pass
+            acc_sensor.loop()
+            right_dc.loop()
+            left_dc.loop()
+            sleep(.1)
 
     except KeyboardInterrupt:
         # force exit - clean up
-        print("KeyboardInterrupt - Cleaning up")
-        pass
+        print("KeyboardInterrupt")
 
     finally:
-        # natural exit - clean up
-        print("Program exiting - Cleaning up")
-        pass
+        # clean up
+        print("Cleaning up")
+        GPIO.cleanup()
