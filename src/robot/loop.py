@@ -18,6 +18,8 @@ LEFT_DC_PIN_EN = 15
 LEFT_DC_PIN_1 = 13
 LEFT_DC_PIN_2 = 11
 
+DELAY=1/30
+
 def loop(command_queue):
     print("Starting GPIO setup")
     # setup
@@ -45,7 +47,7 @@ def loop(command_queue):
             acc_sensor.loop()
             right_dc.loop()
             left_dc.loop()
-            sleep(.1)
+            sleep(DELAY)
 
     except KeyboardInterrupt:
         # force exit - clean up

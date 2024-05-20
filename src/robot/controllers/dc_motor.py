@@ -35,23 +35,19 @@ class DCMotor(GPIO_Interface):
     
     def loop(self):
         if self.direction==Direction.STOP:
-            print("stop")
             GPIO.output(self.pin1,GPIO.LOW)
             GPIO.output(self.pin2,GPIO.LOW)
 
         elif self.direction==Direction.FORWARD:
-            print("forward")
             GPIO.output(self.pin1,GPIO.HIGH)
             GPIO.output(self.pin2,GPIO.LOW)
 
         elif self.direction==Direction.BACKWARD:
-            print("backward")
             GPIO.output(self.pin1,GPIO.LOW)
             GPIO.output(self.pin2,GPIO.HIGH)
             
     def move(self, direction: Direction, speed: Speed):
         if direction != self.prev_direction:
-            print('changed')
             self.direction = direction
             self.prev_direction = direction
         

@@ -76,10 +76,10 @@ class Accelerometer(GPIO_Interface):
         Gz = gyro_z/131.0
         
 
-        print("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)
+        #print("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)
         direction = dc_motor.Direction.BACKWARD if Ax > 0.3 else \
             (dc_motor.Direction.FORWARD if Ax < 0.1 else dc_motor.Direction.STOP)
         speed = dc_motor.Speed.MEDIUM
-        print("\tAx=%.2f" %Ax, direction ,speed)
+        #print("\tAx=%.2f" %Ax, direction ,speed)
         self.right_dc.move(direction, speed)
         self.left_dc.move(direction, speed)
