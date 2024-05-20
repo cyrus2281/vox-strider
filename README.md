@@ -4,3 +4,8 @@ A self-balancing self-driving bipedal robot controlled through computer vision a
 
 
 **Work in progress**
+
+
+## Requirements
+
+- aplay: `sudo apt-get install alsa-utils`

@@ -80,14 +80,13 @@ def truncate_history(history, num_of_events):
     return history
 
 
-def get_pilot(tools_mapping, initial_state):
+def get_pilot(tools_mapping, initial_state, latest_snapshot_path):
     # Check there's a function for every tool
     for tool in tools:
         if tool["function"]["name"] not in tools_mapping:
             raise ValueError(f"No function for tool {tool['function']['name']}")
 
     # Control parameters
-    latest_snapshot_path = "latest_snapshot.jpg"
     num_of_events = 3
 
     # States

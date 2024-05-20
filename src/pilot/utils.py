@@ -36,7 +36,7 @@ def add_guides_to_image_and_encode(
     )
 
     # For debugging
-    output_image_path = image_path.replace("snapshot.jpg", "with_lines_snapshot.jpg")
+    output_image_path = image_path.replace("snapshot.jpg", " with_lines_snapshot.jpg")
     image.save(output_image_path)
 
     # Encode image to base64
