@@ -6,12 +6,16 @@ from pilot.utils import add_guides_to_image_and_encode
 tools = [
     {
         "name": "move",
-        "description": "Move the vehicle in the given direction till stopped or another direction is given",
+        "description": "Move the vehicle in the given direction for the given duration",
         "parameters": {
             "direction": {
                 "type": "string",
                 "description": "The direction to move the vehicle",
                 "enum": ["forward", "backward"],
+            },
+            "duration": {
+                "type": "number",
+                "description": "Duration to move in the direciton in seconds (default is 2)",
             },
         },
         "required": ["direction"],

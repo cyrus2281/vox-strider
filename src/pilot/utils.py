@@ -4,7 +4,7 @@ import io
 import math
 
 def add_guides_to_image_and_encode(
-    image_path, space_between=500, line_length=300, inward_angle=20, line_width=5
+    image_path, space_between=400, line_length=250, inward_angle=15, line_width=4
 ):
     # Open the image
     image = Image.open(image_path)
