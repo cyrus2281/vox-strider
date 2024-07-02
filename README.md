@@ -8,5 +8,5 @@ A self-balancing self-driving bipedal robot controlled through computer vision a
 
 ## Requirements
 
-- aplay: `sudo apt-get install alsa-utils`
 - rpicam-jpeg 
+- portaudio19-dev

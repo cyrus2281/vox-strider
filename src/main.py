@@ -1,16 +1,14 @@
 from dotenv import load_dotenv
-import time
 import threading
 from functools import partial
 
 load_dotenv()
 
-from interface.inputs import get_input
+from interface.io import get_input
 from camera.camera import setup_camera
 from pilot.pilot import get_pilot
 from robot.loop import loop
 from robot.command_queue import CommandQueue
-
 
 initial_state = "Initial"
 latest_snapshot_path = "latest_snapshot.jpg"

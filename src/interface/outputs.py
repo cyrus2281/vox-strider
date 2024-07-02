@@ -1,11 +1,33 @@
-import subprocess
-from llm.model import openai_client
-    
-def play_text_as_audio(text, output_path):
-    response = openai_client.audio.speech.create(
-        model="tts-1",
-        voice="echo",
-        input=text
+import pyaudio
+import wave
+
+
+def play_audio(filename: str):
+    # Open the WAV file
+    wf = wave.open(filename, "rb")
+
+    # Create a PyAudio instance
+    p = pyaudio.PyAudio()
+
+    # Open a stream with the appropriate settings
+    stream = p.open(
+        format=p.get_format_from_width(wf.getsampwidth()),
+        channels=wf.getnchannels(),
+        rate=wf.getframerate(),
+        output=True,
     )
-    response.stream_to_file(output_path)
-    subprocess.run(['aplay', output_path])
+
+    # Read data in chunks and play
+    chunk_size = 1024
+    data = wf.readframes(chunk_size)
+
+    while data:
+        stream.write(data)
+        data = wf.readframes(chunk_size)
+
+    # Stop and close the stream
+    stream.stop_stream()
+    stream.close()
+
+    # Close PyAudio
+    p.terminate()
