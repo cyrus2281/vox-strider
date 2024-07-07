@@ -1,17 +1,15 @@
-from dotenv import load_dotenv
 import threading
 from functools import partial
+from dotenv import load_dotenv
 
 load_dotenv()
 
+from constants import INITIAL_STATE, LATEST_SNAPSHOT_PATH, TURN_ON_CAMERA, TURN_ON_PILOT
 from interface.io import get_input
-from camera.camera import setup_camera
 from pilot.pilot import get_pilot
 from robot.loop import loop
 from robot.command_queue import CommandQueue
 
-initial_state = "Initial"
-latest_snapshot_path = "latest_snapshot.jpg"
 command_queue = CommandQueue()
 objective = ""
 task_ended = None
@@ -48,12 +46,17 @@ tools_mapping = {
 
 def main():
     global task_ended
-    setup_camera(latest_snapshot_path, (720, 480), 0.5)
-    pilot = get_pilot(tools_mapping, initial_state, latest_snapshot_path)
+        
+    if TURN_ON_CAMERA:
+        from camera.camera import setup_camera
+        setup_camera(LATEST_SNAPSHOT_PATH, (720, 480), 0.5)
+
+    pilot = get_pilot(tools_mapping, INITIAL_STATE, LATEST_SNAPSHOT_PATH)
 
     def request_next_action():
         global objective
-        pilot(objective)
+        if TURN_ON_PILOT:
+            pilot(objective)
 
     command_queue.add_request_next_action_fn(request_next_action)
 

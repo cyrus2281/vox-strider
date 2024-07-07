@@ -1,6 +1,8 @@
 import pyaudio
 import wave
 
+from constants import AUDIO_BUFFER_CHUNK_SIZE
+
 
 def play_audio(filename: str):
     # Open the WAV file
@@ -18,7 +20,7 @@ def play_audio(filename: str):
     )
 
     # Read data in chunks and play
-    chunk_size = 1024
+    chunk_size = AUDIO_BUFFER_CHUNK_SIZE
     data = wf.readframes(chunk_size)
 
     while data:

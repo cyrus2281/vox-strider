@@ -1,6 +1,7 @@
 import json
 from pilot.control_llm import get_llm_tool, get_llm_image_message, get_llm_response
 from pilot.utils import add_guides_to_image_and_encode
+from constants import INITIAL_STATE
 
 
 tools = [
@@ -95,7 +96,7 @@ def get_pilot(tools_mapping, initial_state, latest_snapshot_path):
 
     # States
     history = []
-    previous_state = "Initial"
+    previous_state = INITIAL_STATE
     current_state = initial_state
 
     def get_next_action(goal):

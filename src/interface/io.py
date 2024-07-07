@@ -14,6 +14,7 @@ def get_input(set_input):
     record_on_sound_activity(temp_in_audio_path)
     # Convert the audio input to text
     input_text = speech_to_text(temp_in_audio_path)
+    print("User Goal:", input_text)
     # Set the input text
     set_input(input_text)
     # remove the temporary audio file

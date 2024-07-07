@@ -1,26 +1,12 @@
 import RPi.GPIO as GPIO
 from time import sleep, time
+import os
 
 from robot.controllers.dc_motor import DCMotor
 from robot.controllers.servo_motor import ServoMotor
 from robot.controllers.accelerometer import Accelerometer
 from robot.command_queue import CommandQueue
-
-# Servo Motors
-LEFT_SERVO_PIN = 0
-RIGHT_SERVO_PIN = 0
-
-# DC MotorS
-RIGHT_DC_PIN_EN = 16
-RIGHT_DC_PIN_1 = 18
-RIGHT_DC_PIN_2 = 22
-
-LEFT_DC_PIN_EN = 15
-LEFT_DC_PIN_1 = 13
-LEFT_DC_PIN_2 = 11
-
-# DELAY = 1 / 30
-DELAY = 1
+from constants import *
 
 
 def loop(command_queue: CommandQueue):
@@ -47,16 +33,19 @@ def loop(command_queue: CommandQueue):
         # loop
         print("Starting Loop")
         while True:
-            print("Loop")
-            # acc_sensor.loop()
-            right_dc.loop()
-            left_dc.loop()
+            if TURN_ON_PILOT:
+                acc_sensor.loop() 
+                right_dc.loop()
+                left_dc.loop()
 
             # Dequeueing commands
             if not task:
                 task = command_queue.dequeue()
                 if task:
                     task_duration = time() + task["duration"]
+                    if MANUAL_TASK_CONTROL:
+                        input(f"Task: {task}\nPress Enter to continue...")
+                    
             else:
                 right_dc.move(task["right_dc"], task["speed"])
                 left_dc.move(task["left_dc"], task["speed"])
@@ -66,7 +55,7 @@ def loop(command_queue: CommandQueue):
                 task = None
 
             # Loop sleep
-            sleep(DELAY)
+            sleep(LOOP_SLEEP)
 
     except KeyboardInterrupt:
         # force exit - clean up

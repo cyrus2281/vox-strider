@@ -2,15 +2,17 @@ import pyaudio
 import numpy as np
 import wave
 
+from constants import AUDIO_BUFFER_CHUNK_SIZE, AUDIO_INPUT_RATE, AUDIO_NUMBER_OF_SILENT_SECONDS, AUDIO_THRESHOLD
+
 
 def record_on_sound_activity(
     output_filename,
-    threshold=500,
-    chunk_size=1024,
+    threshold=AUDIO_THRESHOLD,
+    chunk_size=AUDIO_BUFFER_CHUNK_SIZE,
     format=pyaudio.paInt16,
     channels=1,
-    rate=44100,
-    number_of_silent_seconds=2,
+    rate=AUDIO_INPUT_RATE,
+    number_of_silent_seconds=AUDIO_NUMBER_OF_SILENT_SECONDS,
 ):
     audio = pyaudio.PyAudio()
     stream = audio.open(

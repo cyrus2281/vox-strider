@@ -1,8 +1,5 @@
 from llm.model import openai_client
-
-model = "gpt-4o"
-max_tokens = 300
-detail = "auto"
+from constants import OPENAI_VLM_MODEL, OPENAI_MAX_TOKENS
 
 llm_system_prompt = (
     "You are a robot controller. You are given the task to control a using "
@@ -70,12 +67,11 @@ def get_llm_response(input_messages, tools):
     messages = [llm_system_prompt_message] + input_messages
 
     response = openai_client.chat.completions.create(
-        model=model,
+        model=OPENAI_VLM_MODEL,
         messages=messages,
         tools=tools,
         tool_choice="required",
-        max_tokens=max_tokens
+        max_tokens=OPENAI_MAX_TOKENS
     )
     response_message = response.choices[0].message
-    print(response_message)
     return response_message
