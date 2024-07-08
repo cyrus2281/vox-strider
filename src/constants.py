@@ -4,6 +4,7 @@ import os
 TURN_ON_PILOT = os.getenv("TURN_OFF_PILOT", "false").lower() != "true"
 TURN_ON_CAMERA = os.getenv("TURN_OFF_CAMERA", "false").lower() != "true"
 TURN_ON_MOTORS = os.getenv("TURN_OFF_MOTORS", "false").lower() != "true"
+TURN_ON_SELF_BALANCING = os.getenv("TURN_OFF_SELF_BALANCING", "false").lower() != "true"
 MANUAL_TASK_CONTROL = os.getenv("MANUAL_TASK_CONTROL", "false").lower() == "true"
 
 # Application States

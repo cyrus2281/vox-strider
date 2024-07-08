@@ -56,30 +56,34 @@ class Accelerometer(GPIO_Interface):
         return value
     
     def loop(self):
-        #Read Accelerometer raw value
-        acc_x = self.read_raw_data(ACCEL_XOUT_H)
-        acc_y = self.read_raw_data(ACCEL_YOUT_H)
-        acc_z = self.read_raw_data(ACCEL_ZOUT_H)
-        
-        #Read Gyroscope raw value
-        gyro_x = self.read_raw_data(GYRO_XOUT_H)
-        gyro_y = self.read_raw_data(GYRO_YOUT_H)
-        gyro_z = self.read_raw_data(GYRO_ZOUT_H)
-        
-        #Full scale range +/- 250 degree/C as per sensitivity scale factor
-        Ax = acc_x/16384.0
-        Ay = acc_y/16384.0
-        Az = acc_z/16384.0
-        
-        Gx = gyro_x/131.0
-        Gy = gyro_y/131.0
-        Gz = gyro_z/131.0
-        
+        try:
+            #Read Accelerometer raw value
+            acc_x = self.read_raw_data(ACCEL_XOUT_H)
+            acc_y = self.read_raw_data(ACCEL_YOUT_H)
+            acc_z = self.read_raw_data(ACCEL_ZOUT_H)
+            
+            #Read Gyroscope raw value
+            gyro_x = self.read_raw_data(GYRO_XOUT_H)
+            gyro_y = self.read_raw_data(GYRO_YOUT_H)
+            gyro_z = self.read_raw_data(GYRO_ZOUT_H)
+            
+            #Full scale range +/- 250 degree/C as per sensitivity scale factor
+            Ax = acc_x/16384.0
+            Ay = acc_y/16384.0
+            Az = acc_z/16384.0
+            
+            Gx = gyro_x/131.0
+            Gy = gyro_y/131.0
+            Gz = gyro_z/131.0
+            
 
-        #print("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)
-        direction = dc_motor.Direction.BACKWARD if Ax > 0.3 else \
-            (dc_motor.Direction.FORWARD if Ax < 0.1 else dc_motor.Direction.STOP)
-        speed = dc_motor.Speed.MEDIUM
-        #print("\tAx=%.2f" %Ax, direction ,speed)
-        self.right_dc.move(direction, speed)
-        self.left_dc.move(direction, speed)
+            #print("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az)
+            direction = dc_motor.Direction.BACKWARD if Ax > 0.3 else \
+                (dc_motor.Direction.FORWARD if Ax < 0.1 else dc_motor.Direction.STOP)
+            speed = dc_motor.Speed.MEDIUM
+            #print("\tAx=%.2f" %Ax, direction ,speed)
+            self.right_dc.move(direction, speed)
+            self.left_dc.move(direction, speed)
+        except Exception as e:
+            # Error self recovers by the next round of the loop
+            print("Accelerometer Exception", e)
