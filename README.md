@@ -39,6 +39,7 @@ Create `.env` file with the following content:
 ```bash
 OPENAI_API_KEY=your_openai_api_key
 TURN_OFF_MOTORS=false
+TURN_OFF_SELF_BALANCING=false
 TURN_OFF_CAMERA=false
 TURN_OFF_PILOT=false
 MANUAL_TASK_CONTROL=false
@@ -46,6 +47,7 @@ MANUAL_TASK_CONTROL=false
 
 - `OPENAI_API_KEY`: Your OpenAI API key.
 - `TURN_OFF_MOTORS`: Set to `true` to disable motor control.
+- `TURN_OFF_SELF_BALANCING`: Disables the self-balancing system
 - `TURN_OFF_CAMERA`: Set to `true` to disable camera.
 - `TURN_OFF_PILOT`: Set to `true` to disable pilot.
 - `MANUAL_TASK_CONTROL`: Set to `true` to enable manual control (You're prompted to executed each task manually)

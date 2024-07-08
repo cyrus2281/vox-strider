@@ -21,7 +21,8 @@ def loop(command_queue: CommandQueue):
     right_dc = DCMotor(RIGHT_DC_PIN_1, RIGHT_DC_PIN_2, RIGHT_DC_PIN_EN)
     left_dc = DCMotor(LEFT_DC_PIN_1, LEFT_DC_PIN_2, LEFT_DC_PIN_EN)
     # Accelerometer sensor
-    acc_sensor = Accelerometer(right_dc, left_dc)
+    if TURN_ON_SELF_BALANCING:
+        acc_sensor = Accelerometer(right_dc, left_dc)
 
     print("Motors and sensor setup completed")
 
@@ -33,7 +34,8 @@ def loop(command_queue: CommandQueue):
         print("Starting Loop")
         while True:
             if TURN_ON_MOTORS:
-                acc_sensor.loop()
+                if TURN_ON_SELF_BALANCING:
+                    acc_sensor.loop()
                 right_dc.loop()
                 left_dc.loop()
 
