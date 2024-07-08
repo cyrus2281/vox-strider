@@ -52,8 +52,24 @@ MANUAL_TASK_CONTROL=false
 
 > **NOTE**: You'd most likely need to update the configurations constants in [`src/constants.py`](src/constants.py) to match your hardware setup.
 
+To pull the STL files, you'd need to install `git-lfs`:
+
+```bash
+sudo apt-get install git-lfs
+git lfs install
+git lfs pull
+```
+
 ## Running
 
 ```bash
 python src/main.py
 ```
+
+## Renders
+
+![VoxStriker_angled_view](STL-Files/renders/VoxStriker_angled_view.png)
+
+![VoxStriker_Movability_1](STL-Files/renders/VoxStriker_Movability_1.png)
+
+![VoxStriker_side_view](STL-Files/renders/VoxStriker_side_view.png)
