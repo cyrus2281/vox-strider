@@ -8,8 +8,7 @@ MANUAL_TASK_CONTROL = os.getenv("MANUAL_TASK_CONTROL", "false").lower() == "true
 
 # Application States
 INITIAL_STATE = "Initial"
-# LOOP_SLEEP = 1 / 30
-LOOP_SLEEP = 1
+LOOP_SLEEP = 1 / 30
 
 # Paths
 LATEST_SNAPSHOT_PATH = "latest_snapshot.jpg"

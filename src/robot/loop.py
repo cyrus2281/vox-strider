@@ -32,7 +32,7 @@ def loop(command_queue: CommandQueue):
         # loop
         print("Starting Loop")
         while True:
-            if TURN_ON_PILOT:
+            if TURN_ON_MOTORS:
                 acc_sensor.loop()
                 right_dc.loop()
                 left_dc.loop()
