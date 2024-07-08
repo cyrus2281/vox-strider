@@ -3,15 +3,22 @@ import base64
 import io
 import math
 
-from constants import SNAPSHOT_AFFIX, SNAPSHOT_WITH_LINES_AFFIX, SNAPSHOT_LINE_LENGTH, \
-    SNAPSHOT_LINE_THICKNESS, SNAPSHOT_LINES_INWARD_ANGLE, SNAPSHOT_SPACE_BETWEEN_LINES
+from constants import (
+    SNAPSHOT_AFFIX,
+    SNAPSHOT_WITH_LINES_AFFIX,
+    SNAPSHOT_LINE_LENGTH,
+    SNAPSHOT_LINE_THICKNESS,
+    SNAPSHOT_LINES_INWARD_ANGLE,
+    SNAPSHOT_SPACE_BETWEEN_LINES,
+)
+
 
 def add_guides_to_image_and_encode(
     image_path,
     space_between=SNAPSHOT_SPACE_BETWEEN_LINES,
     line_length=SNAPSHOT_LINE_LENGTH,
     inward_angle=SNAPSHOT_LINES_INWARD_ANGLE,
-    line_width=SNAPSHOT_LINE_THICKNESS
+    line_width=SNAPSHOT_LINE_THICKNESS,
 ):
     # Open the image
     image = Image.open(image_path)

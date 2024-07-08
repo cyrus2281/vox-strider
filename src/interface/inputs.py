@@ -1,9 +1,14 @@
+from time import sleep
 import pyaudio
 import numpy as np
 import wave
 
-from constants import AUDIO_BUFFER_CHUNK_SIZE, AUDIO_INPUT_RATE, AUDIO_NUMBER_OF_SILENT_SECONDS, AUDIO_THRESHOLD
-
+from constants import (
+    AUDIO_BUFFER_CHUNK_SIZE,
+    AUDIO_INPUT_RATE,
+    AUDIO_NUMBER_OF_SILENT_SECONDS,
+    AUDIO_THRESHOLD,
+)
 
 def record_on_sound_activity(
     output_filename,
@@ -12,8 +17,12 @@ def record_on_sound_activity(
     format=pyaudio.paInt16,
     channels=1,
     rate=AUDIO_INPUT_RATE,
-    number_of_silent_seconds=AUDIO_NUMBER_OF_SILENT_SECONDS,
+    num_of_silent_seconds=AUDIO_NUMBER_OF_SILENT_SECONDS,
+    on_start_listening=None,
+    on_stop_listening=None,
 ):
+    on_start_listening and on_start_listening()
+
     audio = pyaudio.PyAudio()
     stream = audio.open(
         format=format,
@@ -29,11 +38,12 @@ def record_on_sound_activity(
     frames = []
     recording = False
     max_silent_chunks = int(
-        rate / chunk_size * number_of_silent_seconds
-    )  # number_of_silent_seconds of silence
+        rate / chunk_size * num_of_silent_seconds
+    )  # number of silence
 
     try:
         while True:
+            sleep(0.001)
             data = stream.read(chunk_size)
             np_data = np.frombuffer(data, dtype=np.int16)
             volume = np.abs(np_data).mean()
@@ -52,14 +62,15 @@ def record_on_sound_activity(
                     print("Silence detected, stopping recording...")
                     recording = False
                     frames = frames[
-                        :-max_silent_chunks
-                    ]  # Remove the last number_of_silent_seconds of silence
+                        : -int(rate / chunk_size * (num_of_silent_seconds - 1))
+                    ]  # Remove the silent buffer - 1 second
                     break
     finally:
         stream.stop_stream()
         stream.close()
         audio.terminate()
 
+    on_stop_listening and on_stop_listening()
     print(f"Saving audio to {output_filename}")
     wf = wave.open(output_filename, "wb")
     wf.setnchannels(channels)

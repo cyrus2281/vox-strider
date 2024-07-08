@@ -4,7 +4,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from constants import INITIAL_STATE, LATEST_SNAPSHOT_PATH, TURN_ON_CAMERA, TURN_ON_PILOT
+from constants import (
+    INITIAL_STATE,
+    LATEST_SNAPSHOT_PATH,
+    TURN_ON_CAMERA,
+    TURN_ON_PILOT,
+)
 from interface.io import get_input
 from pilot.pilot import get_pilot
 from robot.loop import loop
@@ -29,7 +34,8 @@ def stop():
 
 def end_task(message):
     def callback():
-        global task_ended
+        global task_ended, objective
+        objective = None
         task_ended(message)
         return None
 
@@ -46,29 +52,33 @@ tools_mapping = {
 
 def main():
     global task_ended
-        
+
     if TURN_ON_CAMERA:
         from camera.camera import setup_camera
+
         setup_camera(LATEST_SNAPSHOT_PATH, (720, 480), 0.5)
 
     pilot = get_pilot(tools_mapping, INITIAL_STATE, LATEST_SNAPSHOT_PATH)
 
     def request_next_action():
-        global objective
+        global objective, task_ended
+        nonlocal set_goal
         if TURN_ON_PILOT:
-            pilot(objective)
-
-    command_queue.add_request_next_action_fn(request_next_action)
-
-    loop_thread = threading.Thread(target=partial(loop, command_queue))
-    loop_thread.start()
+            if objective:
+                pilot(objective)
+            else:
+                task_ended = get_input(set_goal)
 
     def set_goal(obj):
         global objective
         objective = obj
         request_next_action()
 
-    task_ended = get_input(set_goal)
+    command_queue.add_request_next_action_fn(request_next_action)
+
+    loop_thread = threading.Thread(target=partial(loop, command_queue))
+    loop_thread.start()
+
     loop_thread.join()
 
 

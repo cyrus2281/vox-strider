@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 from time import sleep, time
-import os
 
 from robot.controllers.dc_motor import DCMotor
 from robot.controllers.servo_motor import ServoMotor
@@ -34,7 +33,7 @@ def loop(command_queue: CommandQueue):
         print("Starting Loop")
         while True:
             if TURN_ON_PILOT:
-                acc_sensor.loop() 
+                acc_sensor.loop()
                 right_dc.loop()
                 left_dc.loop()
 
@@ -44,8 +43,8 @@ def loop(command_queue: CommandQueue):
                 if task:
                     task_duration = time() + task["duration"]
                     if MANUAL_TASK_CONTROL:
-                        input(f"Task: {task}\nPress Enter to continue...")
-                    
+                        input("Paused! Press Enter to continue...")
+
             else:
                 right_dc.move(task["right_dc"], task["speed"])
                 left_dc.move(task["left_dc"], task["speed"])

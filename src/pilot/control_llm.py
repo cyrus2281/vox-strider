@@ -17,7 +17,7 @@ llm_system_prompt_message = {
 }
 
 
-def get_llm_tool(name, description, parameters=None, required = []):
+def get_llm_tool(name, description, parameters=None, required=[]):
     tool = {
         "type": "function",
         "function": {
@@ -71,7 +71,7 @@ def get_llm_response(input_messages, tools):
         messages=messages,
         tools=tools,
         tool_choice="required",
-        max_tokens=OPENAI_MAX_TOKENS
+        max_tokens=OPENAI_MAX_TOKENS,
     )
     response_message = response.choices[0].message
     return response_message
